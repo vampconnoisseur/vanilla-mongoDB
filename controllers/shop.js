@@ -1,7 +1,7 @@
-import { fetchAll, findById } from '../models/product';
+const Product = require('../models/product');
 
-export function getProducts(req, res, next) {
-  fetchAll()
+exports.getProducts = (req, res, next) => {
+  Product.fetchAll()
     .then(products => {
       res.render('shop/product-list', {
         prods: products,
@@ -12,9 +12,9 @@ export function getProducts(req, res, next) {
     .catch(err => {
       console.log(err);
     });
-}
+};
 
-export function getProduct(req, res, next) {
+exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
   // Product.findAll({ where: { id: prodId } })
   //   .then(products => {
@@ -25,7 +25,7 @@ export function getProduct(req, res, next) {
   //     });
   //   })
   //   .catch(err => console.log(err));
-  findById(prodId)
+  Product.findById(prodId)
     .then(product => {
       res.render('shop/product-detail', {
         product: product,
@@ -34,10 +34,10 @@ export function getProduct(req, res, next) {
       });
     })
     .catch(err => console.log(err));
-}
+};
 
-export function getIndex(req, res, next) {
-  fetchAll()
+exports.getIndex = (req, res, next) => {
+  Product.fetchAll()
     .then(products => {
       res.render('shop/index', {
         prods: products,
@@ -48,9 +48,9 @@ export function getIndex(req, res, next) {
     .catch(err => {
       console.log(err);
     });
-}
+};
 
-export function getCart(req, res, next) {
+exports.getCart = (req, res, next) => {
   req.user
     .getCart()
     .then(products => {
@@ -61,11 +61,11 @@ export function getCart(req, res, next) {
       });
     })
     .catch(err => console.log(err));
-}
+};
 
-export function postCart(req, res, next) {
+exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
-  findById(prodId)
+  Product.findById(prodId)
     .then(product => {
       return req.user.addToCart(product);
     })
@@ -73,9 +73,9 @@ export function postCart(req, res, next) {
       console.log(result);
       res.redirect('/cart');
     });
-}
+};
 
-export function postCartDeleteProduct(req, res, next) {
+exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   req.user
     .deleteItemFromCart(prodId)
@@ -83,9 +83,9 @@ export function postCartDeleteProduct(req, res, next) {
       res.redirect('/cart');
     })
     .catch(err => console.log(err));
-}
+};
 
-export function postOrder(req, res, next) {
+exports.postOrder = (req, res, next) => {
   let fetchedCart;
   req.user
     .addOrder()
@@ -93,9 +93,9 @@ export function postOrder(req, res, next) {
       res.redirect('/orders');
     })
     .catch(err => console.log(err));
-}
+};
 
-export function getOrders(req, res, next) {
+exports.getOrders = (req, res, next) => {
   req.user
     .getOrders()
     .then(orders => {
@@ -106,4 +106,4 @@ export function getOrders(req, res, next) {
       });
     })
     .catch(err => console.log(err));
-}
+};

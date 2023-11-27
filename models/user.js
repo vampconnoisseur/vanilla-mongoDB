@@ -1,7 +1,7 @@
-import { ObjectId as _ObjectId } from 'mongodb';
-import { getDb } from '../util/database';
+const mongodb = require('mongodb');
+const getDb = require('../util/database').getDb;
 
-const ObjectId = _ObjectId;
+const ObjectId = mongodb.ObjectId;
 
 class User {
   constructor(username, email, cart, id) {
@@ -125,4 +125,4 @@ class User {
   }
 }
 
-export default User;
+module.exports = User;
